@@ -57,6 +57,12 @@ const boxClicked = (e) => {
     //if a player has won then set the h1#playText to 'currentPlayer has won!'
     if (playerHasWon()) {
       playText.innerText = `${currentPlayer} has won!`;
+
+      //TODO: my addition. After the game is won it removes click events.
+      //I then added drawboard() at the end of the restartBtn() so that click events would work again.
+      boxes.forEach((val, ind, arr) => {
+        val.removeEventListener('click', boxClicked, '')
+      })
       return;
     }
 
@@ -103,6 +109,21 @@ const playerHasWon = () => {
       return true;
     }
   }
+  if (spaces[2] === currentPlayer) {
+    if (spaces[4] === currentPlayer && spaces[6] === currentPlayer) {
+      console.log(`${currentPlayer} wins diagonally from top right to bottom left.`);
+      return true;
+    }
+    if (spaces[1] === currentPlayer && spaces[0] === currentPlayer) {
+      console.log(`${currentPlayer} wins top row from right to left.`);
+      return true;
+    }
+    if (spaces[5] === currentPlayer && spaces[8] === currentPlayer) {
+      console.log(`${currentPlayer} wins vertically on right side.`);
+      return true;
+    }
+  }
+
 };
 
 
@@ -118,6 +139,9 @@ const restart = () => {
   playText.innerText = `Let's Play!`
 
   currentPlayer = O_TEXT;
+
+  //TODO: 
+  drawBoard();
 }
 
 
